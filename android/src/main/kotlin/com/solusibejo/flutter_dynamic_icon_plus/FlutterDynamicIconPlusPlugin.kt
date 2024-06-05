@@ -40,37 +40,39 @@ class FlutterDynamicIconPlusPlugin: FlutterPlugin, MethodCallHandler, ActivityAw
         if(activity != null){
           val sp = activity?.getSharedPreferences(pluginName, Context.MODE_PRIVATE)
           val iconName = call.argument<String?>(Arguments.iconName)
-          val brandsInString = call.argument<String?>(Arguments.brands)
-          val manufacturesInString = call.argument<String?>(Arguments.manufactures)
-          val modelsInString = call.argument<String?>(Arguments.models)
+          // val brandsInString = call.argument<String?>(Arguments.brands)
+          // val manufacturesInString = call.argument<String?>(Arguments.manufactures)
+          // val modelsInString = call.argument<String?>(Arguments.models)
 
-          Log.d("setAlternateIconName", "Icon Name: $iconName with blacklist " +
-                  "brands: $brandsInString," +
-                  "manufactures: $manufacturesInString," +
-                  "models: $modelsInString")
+          // Log.d("setAlternateIconName", "Icon Name: $iconName with blacklist " +
+          //         "brands: $brandsInString," +
+          //         "manufactures: $manufacturesInString," +
+          //         "models: $modelsInString")
+
+          Log.d("setAlternateIconName", "Icon Name: $iconName")
 
           val saved = sp?.edit()?.putString(appIcon, iconName)?.commit()
 
           Log.d("setAlternateIconName", "Saved app icon status: $saved")
 
           if(saved == true){
-            if(containsOnBlacklist(brandsInString, manufacturesInString, modelsInString)){
-              if(activity != null){
-                if(iconName != null){
+            // if(containsOnBlacklist(brandsInString, manufacturesInString, modelsInString)){
+            //   if(activity != null){
+            //     if(iconName != null){
                   ComponentUtil.changeAppIcon(
                     activity!!,
                     activity!!.packageManager,
                     activity!!.packageName
                   )
-                }
+                // }
 
                 ComponentUtil.removeCurrentAppIcon(activity!!)
-              }
-            }
-            else {
-              val flutterDynamicIconPlusService = Intent(activity, FlutterDynamicIconPlusService::class.java)
-              activity?.startService(flutterDynamicIconPlusService)
-            }
+            //   }
+            // }
+            // else {
+            //   val flutterDynamicIconPlusService = Intent(activity, FlutterDynamicIconPlusService::class.java)
+            //   activity?.startService(flutterDynamicIconPlusService)
+            // }
 
             result.success(true)
           }

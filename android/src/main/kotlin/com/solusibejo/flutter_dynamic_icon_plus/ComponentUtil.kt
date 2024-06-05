@@ -155,13 +155,13 @@ object ComponentUtil {
             Log.d("changeAppIcon", "Currently Enabled: $currentlyEnabled")
             Log.d("changeAppIcon", "Will Enabled: $name")
 
-            if(name != null){
-                if(name.isNotEmpty()){
+            // if(name != null){
+            //     if(name.isNotEmpty()){
                     if(currentlyEnabled?.name != name){
                         setupIcon(context, packageManager, packageName, name, currentlyEnabled?.name)
                     }
-                }
-            }
+            //     }
+            // }
         }
     }
 
@@ -194,7 +194,10 @@ object ComponentUtil {
         }
 
         for (toDisable in componentsToDisable) {
-            disable(context, packageManager, toDisable.className)
+            if (toDisable.className.contains(packageName) && !toDisable.className.contains("MainActivity")) {
+                Log.d("setAlternateIconName", "Disabling activity-alias: ${toDisable.className}")
+                disable(context, packageManager, toDisable.className)
+            }
         }
     }
 }
